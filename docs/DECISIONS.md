@@ -26,3 +26,11 @@
   and verified destination bytes and unchanged source hashes. The second
   active unit completed; no within-file interruption is claimed.
 - Core plus first file examples: 26 tests passed. No timing sleeps were used.
+
+## Negative finding before correction
+- The additional identity regression failed: execution_id was assignable after
+  construction. The 27-test run had one failure. This is a real protocol gap
+  in the new code, not a historical AS failure.
+- The regression and finding are recorded before fixing the binding. The raw
+  local test log remains under .runs/identity_negative_before_fix.txt and is
+  excluded from distribution. No source history is imported.

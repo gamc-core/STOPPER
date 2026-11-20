@@ -208,3 +208,9 @@ class CoreTests(unittest.TestCase):
         self.assertEqual(sum(r.status == "RECEIVED" for r in receipts), 1)
         self.assertEqual(sum(r.status == "DUPLICATE" for r in receipts), 3)
         self.assertEqual(complete_all(run).request_ids, ("same",))
+
+    def test_execution_identity_is_fixed(self):
+        run = Execution("original", ["one"])
+        with self.assertRaises(AttributeError):
+            run.execution_id = "different"
+
