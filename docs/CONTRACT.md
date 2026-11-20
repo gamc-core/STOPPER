@@ -10,6 +10,8 @@ signal_factory must return an independent adapter for each execution.
 A worker must stop calling its operation when begin returns false.
 Only one unit may be active; the library does not create or terminate threads.
 
+The caller assigns a distinct execution ID within its routing context; STOPPER
+is an object API, not a global ID registry or message router.
 A request contains a request ID and target execution ID.
 A wrong target is NOT_RECEIVED by this execution. A correct preterminal request
 is RECEIVED; this proves intake, not worker cooperation. Repeating its ID is
@@ -18,7 +20,8 @@ idempotent. A new request after terminal is TOO_LATE and cannot rewrite outcome.
 begin checks the signal before starting a unit, under the execution lock.
 If observed with units remaining, it prevents those units and settles STOPPED.
 A partial run has effect INTERRUPTED; a stop before any unit has effect
-PREVENTED_FUTURE. These mean cooperative abandonment at a unit boundary.
+PREVENTED_FUTURE. These mean cooperative abandonment of the whole job at a unit boundary,
+not interruption inside an active unit.
 An active unit cannot be interrupted. finish requires all units completed
 unless an earlier boundary already settled STOPPED or the worker failed.
 A request with no remaining work has effect NO_EFFECT; otherwise a normal

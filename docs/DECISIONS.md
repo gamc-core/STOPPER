@@ -42,3 +42,12 @@
   reparse/link flags. Reparse-flag rejection has a controlled unit test; no
   Windows ACLs or real system links were changed to test it.
 - The resulting focused suite passed 29 tests.
+
+## Remaining scenarios and reuse
+- E03 preserves a completed file modification and prevents validation.
+- E04 completes local work, suppresses presentation, records NO_EFFECT, and
+  demonstrates a later TOO_LATE receipt. No remote call is made.
+- E05 uses the core in a separate arithmetic loop, with a full control run
+  and a two-item partial. Control and stopped executions have distinct IDs.
+- The first five-scenario execution passed, and the expanded suite passed
+  34 tests. Final clean-copy verification is still pending at this stage.

@@ -65,3 +65,43 @@ class FileExampleTests(unittest.TestCase):
             with patch.object(Path, "is_symlink", return_value=False):
                 with self.assertRaises(ValueError):
                     reject_link(ROOT / "not-opened")
+
+    def test_same_copy_without_request_completes_all_files(self):
+        area = workspace("test-e02-control")
+        result = scenario("E02").run(area, request_stop=False)
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(len(list((area / "destination").iterdir())), 5)
+        self.assertEqual(result["outcomes"]["copy"]["effect"], "NONE")
+
+    def test_stop_does_not_undo_physical_change(self):
+        area = workspace("test-e03")
+        result = scenario("E03").run(area)
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual((area / "synthetic.txt").read_bytes(), b"after\n")
+        self.assertFalse((area / "validation-started.txt").exists())
+
+    def test_presentation_suppression_keeps_computed_result(self):
+        area = workspace("test-e04")
+        result = scenario("E04").run(area)
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual((area / "computed.txt").read_bytes(), b"local result: 42\n")
+        self.assertIsNone(result["delivered"])
+        self.assertEqual(result["outcomes"]["local_work"]["effect"], "NO_EFFECT")
+
+    def test_independent_reuse_and_ordinary_control(self):
+        result = scenario("E05").run(workspace("test-e05"))
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(result["partial_values"], [4, 9])
+        self.assertEqual(result["ordinary_values"], [4, 9, 16, 25, 36])
+
+    def test_physical_mismatch_is_not_confirmed(self):
+        from stopper import Execution, observe_effects
+        area = workspace("test-physical-mismatch")
+        output = area / "result.txt"
+        write_new(output, b"unexpected bytes")
+        job = Execution("check", ["write"])
+        job.begin("write")
+        job.complete("write")
+        observation = observe_effects(job.finish(), lambda _: output.read_bytes() == b"expected bytes")
+        self.assertEqual(observation.status, "MISMATCH")
+        self.assertFalse(observation.confirmed)
