@@ -51,3 +51,12 @@
   and a two-item partial. Control and stopped executions have distinct IDs.
 - The first five-scenario execution passed, and the expanded suite passed
   34 tests. Final clean-copy verification is still pending at this stage.
+
+## Packaging and lifecycle review
+- A metadata probe found that wheel is absent. It did not install or run a
+  package build. Removed the unverified offline pip command from README;
+  retained the tested no-install source route and conventional metadata.
+- The earlier metadata probe ended before reporting its navigation summary;
+  the focused link check was completed separately. No product failure is
+  inferred from a missing optional build tool.
+- Added teardown checks for live example workers after every file-example test.

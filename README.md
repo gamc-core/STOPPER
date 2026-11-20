@@ -43,10 +43,11 @@ The workers synchronize at explicit checkpoints. Timeout values only detect a
 broken example; they do not choose when a request should arrive.
 
 ### Use
-In your own environment, add this checkout's `src` to the module search path,
-or install the local project with your existing pip/setuptools tools
-(`pip install --no-index --no-build-isolation --no-deps .`).
+In your own environment, add this checkout's `src` to the module search path.
 The no-install commands above are the tested offline reproduction route.
+`pyproject.toml` declares conventional setuptools packaging metadata; package
+installation and wheel building are not verified in this candidate. The local
+build environment lacks wheel, and no build dependency was downloaded.
 
 ```python
 from stopper import Execution

@@ -14,6 +14,10 @@ def scenario(key):
 
 
 class FileExampleTests(unittest.TestCase):
+    def tearDown(self):
+        from threading import enumerate as threads
+        self.assertFalse(any(t.is_alive() and t.name == "stopper-example-worker" for t in threads()))
+
     def test_signal_not_received(self):
         result = scenario("E01").run(workspace("test-e01"))
         self.assertEqual(result["status"], "PASS")
