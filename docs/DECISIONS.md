@@ -1,15 +1,21 @@
 # Development decisions
 
-## Cut 1 — scope before code
-- Destination did not exist. The new repository is separate from the source.
-- Chosen seam: conventional threading.Event, one cooperative execution and a
-  finite ordered unit list. No private authority or persistence module is copied.
+## Cut 1 â€” scope before code
+- Destination did not exist. A new repository was initialized before implementation.
+- Conventional threading.Event; one cooperative execution, finite ordered units.
 - Worker reports and physical checking remain distinct.
-- The seven proposed invariants are retained with computable boundaries in the
-  contract. "Prevented" excludes a unit once begun, even if not completed.
-- No public remote, source Git objects, credentials, or raw conversations.
-- Local Git attribution uses GAMC and a reserved .invalid email to avoid placing
-  a personal email in candidate history. This is not identity authentication.
-- The implementation executor for this delivery is Codex.
-- New code and original project documentation/data: MIT (LICENSE).
-  Historical summaries will be new, sanitized descriptions, not raw dumps.
+- Seven invariants retain computable boundaries in the contract.
+- No source Git history, private runtime, raw conversations or public remote.
+- Local Git attribution uses GAMC and a reserved .invalid email; it does not
+  authenticate identity or expose a personal email.
+- The actual implementation executor is Codex.
+- New code and original project documentation/data: MIT. Historical summaries
+  will be new sanitized descriptions, not raw dumps.
+
+## Cut 2 â€” first capability
+- Implemented ordered begin/complete/finish, distinct receipts and immutable
+  outcome snapshots. The caller owns its worker and must respect begin.
+- Added read/write signal errors, late and duplicate receipt handling, and a
+  separate physical-check result (VERIFIED / MISMATCH / ERROR).
+- First execution of the core suite: 22 tests passed on Windows, Python 3.10.6.
+  This result concerns the new code, not the historical AS implementation.
