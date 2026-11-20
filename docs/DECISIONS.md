@@ -60,3 +60,13 @@
   the focused link check was completed separately. No product failure is
   inferred from a missing optional build tool.
 - Added teardown checks for live example workers after every file-example test.
+
+## First clean-copy finding
+- Original and clean-copy runs each passed 34 tests; all five clean-copy
+  examples passed and imported only the copied package.
+- The byte-identity assertion nevertheless failed on 27 tracked files. The
+  copy inherited system Git core.autocrlf=true; all differences were CRLF/LF.
+  The earlier run and byte-mismatch evidence are retained, not relabeled PASS.
+- Added repository-local .gitattributes with LF checkout policy and normalized
+  candidate text. No global Git or canonical configuration was changed.
+- A new copy must confirm the corrected bytes before reproduction is closed.
