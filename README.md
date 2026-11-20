@@ -16,7 +16,8 @@ No network, service, private runtime, or runtime dependency is required.
 ## Understand → Try → Use → Examine
 
 ### Try
-From this checkout, with Python 3.10 or later:
+From this checkout, with Python 3.10 or later (use your interpreter path if
+python is not on PATH):
 
 ```text
 python -I -S -B examples/run.py all

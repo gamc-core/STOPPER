@@ -70,3 +70,16 @@
 - Added repository-local .gitattributes with LF checkout policy and normalized
   candidate text. No global Git or canonical configuration was changed.
 - A new copy must confirm the corrected bytes before reproduction is closed.
+
+## Cut 4 — corrected clean reproduction and closure
+- The corrected fresh Git copy matched tracked bytes before and after tests.
+- Original and clean copies passed 34 tests each; the five clean-copy CLI
+  scenarios passed. Import resolution pointed inside the new copy.
+- Runtime remains standard-library-only and offline. No packaging build or
+  external dependency installation was attempted.
+- Focused history/path/import review found no private-pattern matches,
+  linked tracked paths, private imports, Git alternates or remotes. Six
+  consulted source-file hashes remained unchanged.
+- Closing changes are documentary; executable hashes are compared with the
+  tested revision rather than rerunning unchanged code for the closing prose.
+- Final status is PRIVATE PUBLICATION CANDIDATE, never published.
