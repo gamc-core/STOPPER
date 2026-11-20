@@ -19,3 +19,10 @@
   separate physical-check result (VERIFIED / MISMATCH / ERROR).
 - First execution of the core suite: 22 tests passed on Windows, Python 3.10.6.
   This result concerns the new code, not the historical AS implementation.
+
+## First physical example
+- E01 distinguishes delivery to a wrong target from receipt without effect.
+- E02 copied two of five synthetic files, stopped before the remaining three,
+  and verified destination bytes and unchanged source hashes. The second
+  active unit completed; no within-file interruption is claimed.
+- Core plus first file examples: 26 tests passed. No timing sleeps were used.
