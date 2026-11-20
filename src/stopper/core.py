@@ -68,7 +68,7 @@ class Execution:
     def __init__(
         self, execution_id: str, units: Iterable[str], *, signal_factory=Event
     ):
-        self.execution_id = _label(execution_id, "execution_id")
+        self._execution_id = _label(execution_id, "execution_id")
         self._units = tuple(units)
         if not self._units:
             raise ContractError("declare at least one unit")
@@ -84,6 +84,10 @@ class Execution:
         self._requests: dict[str, Receipt] = {}
         self._observed: list[str] = []
         self._terminal: Outcome | None = None
+
+    @property
+    def execution_id(self) -> str:
+        return self._execution_id
 
     def _snapshot(self, state="RUNNING", effect="PENDING", error=None) -> Outcome:
         not_started = self._units[len(self._started):]

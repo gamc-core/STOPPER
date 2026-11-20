@@ -5,7 +5,8 @@ STOP REQUESTED IS NOT STOP EFFECTIVE.
 ## Scope
 One in-process execution has a fixed, finite, ordered list of unique unit names.
 Its worker calls `begin(unit)` before each unit, `complete(unit)` afterward,
-and `finish()` when done. The library owns a fresh threading.Event and lock.
+and `finish()` when done. The library owns a fresh threading.Event and lock by default. A custom
+signal_factory must return an independent adapter for each execution.
 A worker must stop calling its operation when begin returns false.
 Only one unit may be active; the library does not create or terminate threads.
 

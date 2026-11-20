@@ -34,3 +34,11 @@
 - The regression and finding are recorded before fixing the binding. The raw
   local test log remains under .runs/identity_negative_before_fix.txt and is
   excluded from distribution. No source history is imported.
+
+## Correction and file boundary
+- execution_id now has a read-only public property. The negative regression
+  passes; private attribute tampering remains outside the trusted-worker model.
+- Reviewed workspace helpers: reject parent traversal before mkdir and reject
+  reparse/link flags. Reparse-flag rejection has a controlled unit test; no
+  Windows ACLs or real system links were changed to test it.
+- The resulting focused suite passed 29 tests.

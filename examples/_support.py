@@ -18,7 +18,10 @@ def reject_link(path):
 
 
 def guarded_directory(path):
-    path = Path(path).absolute()
+    path = Path(path)
+    if ".." in path.parts:
+        raise ValueError("parent traversal is outside the example contract")
+    path = path.absolute()
     path.relative_to(PROJECT)
     current = path
     while True:
@@ -48,6 +51,8 @@ def write_new(path, content):
 
 def copy_one(source, destination):
     source, destination = Path(source), Path(destination)
+    if ".." in source.parts:
+        raise ValueError("parent traversal is outside the example contract")
     source.relative_to(PROJECT)
     reject_link(source)
     guarded_directory(destination.parent)

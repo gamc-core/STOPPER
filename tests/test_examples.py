@@ -48,3 +48,20 @@ class FileExampleTests(unittest.TestCase):
         with self.assertRaises(FileExistsError):
             copy_one(source, destination)
         self.assertEqual(destination.read_bytes(), b"existing")
+
+    def test_parent_traversal_is_rejected_before_mkdir(self):
+        from unittest.mock import patch
+        from _support import guarded_directory
+        with patch.object(Path, "mkdir") as mkdir:
+            with self.assertRaises(ValueError):
+                guarded_directory(ROOT / ".runs" / ".." / ".." / "never-create")
+            mkdir.assert_not_called()
+
+    def test_reparse_flag_is_rejected(self):
+        from types import SimpleNamespace
+        from unittest.mock import patch
+        from _support import reject_link
+        with patch.object(Path, "lstat", return_value=SimpleNamespace(st_file_attributes=0x400)):
+            with patch.object(Path, "is_symlink", return_value=False):
+                with self.assertRaises(ValueError):
+                    reject_link(ROOT / "not-opened")
