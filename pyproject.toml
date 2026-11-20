@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stopper"
+version = "0.1.0"
+description = "Cooperative stopping and observable outcomes"
+readme = "README.md"
+requires-python = ">=3.10"
+license = {file = "LICENSE"}
+authors = [{name = "Gonzalo Montero (GAMC)"}]
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
