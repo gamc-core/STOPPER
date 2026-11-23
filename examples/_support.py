@@ -7,7 +7,7 @@ from pathlib import Path
 import tempfile
 from threading import Event, Thread
 
-PROJECT = Path(__file__).absolute().parents[1]
+PROJECT = Path(__file__).resolve().parents[1]
 REPARSE = 0x400
 
 

@@ -19,7 +19,8 @@ does not create or terminate its worker thread.
 
 Each execution has its own `threading.Event` and lock by default.
 A custom `signal_factory` must supply a fresh independent adapter for
-each execution.
+each execution. Its callbacks may read snapshots, but must not call methods
+that change the execution; rejected reentry is a signal error.
 
 A request names a request ID and target execution ID. A wrong target yields
 `NOT_RECEIVED`. A correct request before terminal yields `RECEIVED`;

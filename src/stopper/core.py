@@ -62,7 +62,8 @@ class Execution:
     """One ordered cooperative job. The caller owns its worker and effects.
 
     A custom signal_factory must return a fresh per-execution adapter implementing
-    set() and is_set(). The default Event does so. It is not a security boundary.
+    set() and is_set(). Callbacks may read snapshots, but must not change their
+    execution. The default Event does so. It is not a security boundary.
     """
 
     def __init__(
@@ -78,6 +79,7 @@ class Execution:
             raise ContractError("unit names must be unique")
         self._signal = signal_factory()
         self._lock = RLock()
+        self._in_signal = False
         self._started: list[str] = []
         self._completed: list[str] = []
         self._active: str | None = None
@@ -107,10 +109,22 @@ class Execution:
             "FAILED", "UNKNOWN", where + ": " + type(exc).__name__ + ": " + str(exc)
         )
 
+    def _check_signal_callback(self) -> None:
+        if self._in_signal:
+            raise ContractError("signal callbacks must not change their execution")
+
+    def _call_signal(self, method: str):
+        self._in_signal = True
+        try:
+            return getattr(self._signal, method)()
+        finally:
+            self._in_signal = False
+
     def request_stop(self, request_id: str, target_id: str) -> Receipt:
         request_id = _label(request_id, "request_id")
         target_id = _label(target_id, "target_id")
         with self._lock:
+            self._check_signal_callback()
             if target_id != self.execution_id:
                 return Receipt(request_id, target_id, False, "NOT_RECEIVED", False)
             if request_id in self._requests:
@@ -120,7 +134,7 @@ class Execution:
             receipt = Receipt(request_id, target_id, True, "RECEIVED", False)
             self._requests[request_id] = receipt
             try:
-                self._signal.set()
+                self._call_signal("set")
             except Exception as exc:
                 self._fail("signal.set", exc)
                 raise SignalError(self._terminal.error) from exc
@@ -130,7 +144,7 @@ class Execution:
 
     def _read_signal(self, point: str) -> bool:
         try:
-            pending = self._signal.is_set()
+            pending = self._call_signal("is_set")
             if type(pending) is not bool:
                 raise TypeError("is_set must return bool")
         except Exception as exc:
@@ -142,6 +156,7 @@ class Execution:
 
     def begin(self, unit: str) -> bool:
         with self._lock:
+            self._check_signal_callback()
             if self._terminal is not None:
                 return False
             if self._active is not None:
@@ -159,6 +174,7 @@ class Execution:
 
     def complete(self, unit: str) -> None:
         with self._lock:
+            self._check_signal_callback()
             if self._terminal is not None or self._active != unit:
                 raise ContractError("only the active unit may be completed")
             self._completed.append(unit)
@@ -166,6 +182,7 @@ class Execution:
 
     def finish(self) -> Outcome:
         with self._lock:
+            self._check_signal_callback()
             if self._terminal is not None:
                 return self._terminal
             if self._active is not None or len(self._completed) != len(self._units):
@@ -177,6 +194,7 @@ class Execution:
 
     def fail(self, detail: str) -> Outcome:
         with self._lock:
+            self._check_signal_callback()
             if self._terminal is None:
                 self._fail("worker", RuntimeError(detail))
             return self._terminal

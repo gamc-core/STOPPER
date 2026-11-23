@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 import sys
 
-ROOT = Path(__file__).absolute().parents[1]
+ROOT = Path(__file__).resolve().parents[1]
 sys.dont_write_bytecode = True
 sys.path[:0] = [str(ROOT / "src"), str(ROOT / "examples")]
 from _support import save_report, workspace
