@@ -1,13 +1,10 @@
 # Origin
 
-STOPPER grew from stop trials in Arquitectura Simbiótica, Gonzalo Montero (GAMC)'s environment for constructing and preserving work with human
-involvement. DOJO provides its human interaction environment. In those trials,
-a request to stop could reach a worker too late, prevent a later step, abandon
-a copy, or change only what was delivered to the screen.
-
-The historical mechanism developed from recording requests into cooperative
-prevention, bounded copy interruption and more faithful feedback. STOPPER
-takes those distinctions into a small independent implementation.
+STOPPER is an independent construction by Gonzalo Montero (GAMC), derived
+from experiences in DOJO, an environment developed within Arquitectura
+Simbiótica (AS). The original stop trials examined requests that arrived too
+late, prevented a later step, abandoned a copy or changed only what reached
+the screen.
 
 ## Historical cases
 
