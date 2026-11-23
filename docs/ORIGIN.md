@@ -1,68 +1,56 @@
 # Origin
 
-STOPPER is an independent construction by Gonzalo Montero (GAMC), derived
-from experiences in DOJO, an environment developed within Arquitectura
-Simbiótica (AS). The original stop trials examined requests that arrived too
-late, prevented a later step, abandoned a copy or changed only what reached
-the screen.
+STOPPER is an independent construction by Gonzalo Montero (GAMC), derived from
+experiences in DOJO. DOJO is an environment developed within Arquitectura
+Simbiótica (AS), the architecture in which those experiences took place.
+
+Stop trials there exposed several different outcomes: a request could fail
+to reach its receiver, prevent a later step, abandon a copy or change only
+what was delivered to the screen. STOPPER carries those distinctions into
+a small, independent implementation.
 
 ## Historical cases
 
-| Experience | What remained important | New experiment |
-| --- | --- | --- |
-| [000129 — gesture not received](../cases/000129/README.md) | An attempted intervention did not reach intake. | [E01](../examples/01_signal_not_received/README.md) |
-| [000132 — copy abandoned](../cases/000132/README.md) | An invalid partial remained; mutation never began. | [E02](../examples/02_interrupt_copy/README.md) |
-| [000142 — change already made](../cases/000142/README.md) | Later validation stopped while the modification remained. | [E03](../examples/03_stop_is_not_undo/README.md) |
-| [000144–147 — response withheld](../cases/000144_000147/README.md) | Local suppression did not demonstrate provider cancellation. | [E04](../examples/04_presentation_is_not_execution/README.md) |
+The numbers below identify DOJO session records. Each case retains the
+examined facts, their limits and the interpretation behind its new example.
 
-These pages are new, sanitized summaries of checked historical records.
-They separate the recorded facts and their limits from the interpretation
-that motivated each example. The examples use synthetic inputs and produce
-new results. STOPPER's tests concern its own code; historical test outcomes
-do not transfer to it. E05 is a derived reuse example without another
+| Experience | Retained distinction | New example |
+| --- | --- | --- |
+| [000129 — gesture not received](../cases/000129/README.md) | An attempted stop did not reach intake. | [E01](../examples/01_signal_not_received/README.md) |
+| [000132 — copy abandoned](../cases/000132/README.md) | An invalid partial remained; mutation never began. | [E02](../examples/02_interrupt_copy/README.md) |
+| [000142 — change already made](../cases/000142/README.md) | Later validation stopped while the change remained. | [E03](../examples/03_stop_is_not_undo/README.md) |
+| [000144–147 — response withheld](../cases/000144_000147/README.md) | Local suppression did not prove provider cancellation. | [E04](../examples/04_presentation_is_not_execution/README.md) |
+
+The case pages are sanitized summaries, not original records or reproduced
+historical executions. The examples use synthetic inputs and have their own
+results and tests. E05 is a derived reuse example without a separate
 historical episode.
 
 ## Independent construction
 
-The execution API, receipts, outcome snapshots, observation helper, examples
-and tests were implemented anew. Signaling uses Python's conventional
-`threading.Event`. No private runtime or external library code was copied.
-
-The construction retains the relationship between a request, its execution,
-a cooperation boundary and the work left behind. It leaves out the original
-execution and validation engines, authority contracts, promotion mechanisms,
-private workspaces and source Git history.
+The API, receipts, outcome snapshots, observation helper, examples and tests
+were implemented anew, using Python's conventional `threading.Event`.
+No private runtime or external library code was copied. Authority contracts,
+promotion mechanisms, private workspaces and source Git history were excluded.
 
 Development began on 20 November 2026 with a new Git root, before code was
-written. The implementation assistant was Codex, working under GAMC's
-authorization. [Decisions](DECISIONS.md) records the real findings and
-corrections. The reading-only revision `99f531c` preserves that history. A later
-optional console summary changes the example runner's presentation while
-leaving the library and historical records intact.
+written. Codex assisted the implementation under GAMC's authorization.
+[Decisions](DECISIONS.md) records the choices, failures and corrections;
+[verification](VERIFICATION.md) identifies the tested revisions.
+Historical tests do not validate the new code.
 
 ## Source record
 
-The private inspection report
-maps each case to its preserved conversation, request, settlement, intervention
-and custody objects. It remains in the author's custody and is not needed
-to use STOPPER.
+The private report maps the cases to preserved conversations, requests, settlements, interventions
+and custody objects. It remains in the author's custody and is unnecessary
+for running STOPPER.
 
-The summaries omit personal paths, detailed execution IDs, full conversations,
-work files and internal authority references. Session numbers remain as
-historical locators. The inspection distinguished direct conversation fields,
-transported human reports and consumer observations. It did not newly
-authenticate people or establish a complete historical timeline; some
-intermediate implementation versions were not preserved individually.
+The inspection distinguished conversation fields, transported human accounts
+and consumer observations. It did not authenticate people or establish a
+complete historical timeline; some intermediate source versions were not
+retained. Private records, full conversations and work files are not included.
 
-The underlying private records are not included. These summaries make their
-relationship to the new experiments explicit without replacing the originals
-or making the historical executions independently reproducible.
+[MIT](../LICENSE) covers the new code, project prose and synthetic data,
+not the underlying private records or third-party material.
 
-## Reuse
-
-[MIT](../LICENSE) covers the new code, project prose and synthetic data.
-It does not grant access to, or rights over, the underlying private records,
-conversations or third-party material.
-
-[Start with E02](../examples/02_interrupt_copy/README.md) ·
-[Verification](VERIFICATION.md) · [Main page](../README.md)
+[Try E02](../examples/02_interrupt_copy/README.md) · [Main page](../README.md)

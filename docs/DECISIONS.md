@@ -1,111 +1,73 @@
 # Development decisions
 
-The repository began before implementation and retains the findings that
-changed its construction. Commit IDs below identify that process; the
-earlier commits have not been rewritten.
+The Git history records the construction as it happened. The entries below
+focus on choices and findings that changed the piece.
 
 ## 20 November 2026
 
-### Scope before code
+### Cooperative work in finite units
 
 The first contract (`3cde351`) chose a conventional `threading.Event`
-and a finite ordered job. A worker would check between units, while receipts
-and observations remained separate. This kept the useful relationship
-without importing the private runtime, authority contracts or Git history.
+and a finite, ordered job. Receipts and observed effects stayed separate;
+the worker would cooperate before starting another unit.
 
-The first implementation (`247a389`) introduced `begin`, `complete`
-and `finish`, immutable outcomes and a separate physical-check result.
-Its initial suite passed 22 tests.
+The initial API (`247a389`) and file examples (`4254000`) made those
+boundaries executable. E02's active second file finished before the next
+three were prevented. The broader scenarios and independent arithmetic
+batch followed in `feaad94`.
 
-### First files and a failed identity check
+### A failed identity check
 
-E01 and E02 (`4254000`) put the protocol to work. E02 copied two of five
-synthetic files and prevented the next three, checking destination bytes
-and unchanged source hashes. The active second unit finished. At that point,
-26 tests passed.
+The initial suites passed 22 and then 26 tests. An added regression exposed
+an assignable `execution_id`: the 27-test run had one failure.
+The failing test was committed in `8f8c21e` before a read-only property
+fixed the binding in `9ad1faa`.
 
-An added regression then exposed a real gap: the public `execution_id`
-attribute could be reassigned. The 27-test run had one failure.
-The failing test was committed first (`8f8c21e`), before a read-only
-property fixed the binding (`9ad1faa`).
+The path review also added rejection of parent traversal and link/reparse
+flags. These checks protect the controlled examples; they do not establish
+containment against hostile concurrent filesystem changes. The suite then
+passed 29 tests and later reached 34.
 
-The same review tightened example paths: parent traversal is rejected before
-directory creation, and link/reparse flags are checked. A controlled test
-covers flag rejection without creating privileged system links. Private
-attribute tampering and hostile filesystem races remain outside the scope.
-The suite then passed 29 tests.
+### Checkout bytes mattered
 
-### Complete scenarios and limits
+A fresh Git copy passed 34 tests and all five scenarios but failed byte
+identity on 27 files. System Git `core.autocrlf=true` had converted LF
+to CRLF. The failure remained recorded.
 
-The remaining scenarios (`feaad94`) showed a change persisting after stop,
-delivery being suppressed while work completed, and reuse in a separate
-arithmetic loop. The suite reached 34 tests. Documentation and sanitized
-cases followed in `7a4eed2`.
+Repository-local `.gitattributes` fixed checkout representation
+(`8cadf80`). A new copy then matched bytes and passed the tests and
+examples. `1a1206d` recorded that verification.
 
-A packaging probe found `wheel` unavailable. An unverified offline pip
-instruction was removed; source execution remained the supported reproduction
-route. `07b0296` also added checks that example workers had settled.
-Installation and wheel building were not validated.
+A packaging probe found `wheel` unavailable. The unverified offline
+installation instruction was removed in `07b0296`; that revision also
+checked that example workers had settled. Source execution remained the
+verified route.
 
-### Clean reproduction and a byte mismatch
+## 23 November 2026
 
-The first fresh Git copy passed 34 tests and all five scenarios, but its
-byte-identity check failed on 27 files. The copy inherited system Git
-`core.autocrlf=true`, converting LF to CRLF. All differences were line
-endings; the earlier failure remained recorded.
+### Readable examples and optional summaries
 
-A repository-local `.gitattributes` policy fixed checkout representation
-(`8cadf80`) without changing global Git configuration. A new copy then
-matched tracked bytes, passed the same 34 tests and ran all five examples.
-Package imports resolved inside that copy. `1a1206d` recorded the close
-and its limits.
+Reading revisions `99f531c` and `9ed49ec` connected examples with
+their historical cases and first-run steps. I5's wording was clarified:
+failure does not confirm completion, even after all units were reported
+complete. The behavior did not change.
 
-Git attribution uses a reserved `.invalid` address rather than a personal
-email. Code, project prose and synthetic data use MIT; the underlying private
-records remain excluded.
+The existing JSON output had consumers, so `b3ff3eb` added an opt-in
+`--summary` in the shared example runner. It reads returned data after
+the full report is saved. Core states, synchronization and experiments stayed
+unchanged. Nineteen presentation checks brought the suite to 53;
+`3de166c` recorded the original and clean-copy results.
 
-## 23 November 2026 — Reading and navigation
+A separate comparison initially confused sorted console JSON with saved-file
+key order. Comparing the actual files resolved the harness mismatch without
+changing the product. Both records were retained.
 
-The reading revision gives E02 the first-run path, connects examples back to
-their source experiences, and places a single linked map in the main page.
-Cases use continuous accounts; origin, decisions and verification keep their
-separate responsibilities. Internal supervision text and encoding-damaged
-headings were removed without rewriting the original commits.
+### Attribution and synthesis
 
-The seven invariants remain. I5's wording now makes clear that a failed
-outcome does not confirm completion, even if the worker already reported all
-units complete. This clarifies the existing code, including signal failure
-at the terminal boundary; it adds no new behavior.
+Public attribution and project metadata were aligned to Gonzalo Montero (GAMC)
+in `c436710`. Earlier commits were retained. The documentation now separates
+origin, decisions and current verification rather than repeating the history
+in each place.
 
-Executable files, tests, license and ignore rules are unchanged. The
-[verification record](VERIFICATION.md#reading-revision) identifies the
-editorial checks separately from the original test results.
-
-### Reading steps
-
-The follow-up reading cut restored the opening question and separated trying
-the experiences from using the library. Numbered instructions now lead each
-experience to its result and the few checks that matter. Cases, provenance
-and the seven-invariant contract needed no changes in this cut.
-
-### Optional result presentation
-
-The runner saves each complete report before printing it. The smallest
-compatible addition was an opt-in `--summary`: existing commands keep their
-JSON, while the shared runner can describe all five results. No experiment,
-synchronization, receipt or core API changed. Counts and statuses come from
-the returned record; formatting neither reruns checks nor mutates the record.
-
-A dedicated presentation suite covers real synthetic scenarios, JSON bytes
-and shape, unknown/mismatched/error observations, failed saves and preserved
-evidence. The first combined run passed 53 tests: the existing 34 plus 19
-new presentation checks. A fresh Git copy then passed the same 53 tests and
-all five scenarios in both modes. Tracked bytes matched, imports stayed inside
-the copy, and the complete saved JSON matched the original files.
-
-An external comparison initially rebuilt the saved JSON from sorted stdout,
-losing its original key order. This was a harness mismatch, not a product
-change. Comparing the actual saved files confirmed byte identity in both
-modes. The failed comparison record and valid outputs were retained.
-
-[Origin](ORIGIN.md) · [Verification](VERIFICATION.md) · [Main page](../README.md)
+[Origin](ORIGIN.md) · [Current verification](VERIFICATION.md) ·
+[Main page](../README.md)

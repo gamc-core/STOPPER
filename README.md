@@ -7,64 +7,66 @@
 
 **You asked it to stop. What actually stopped?**
 
-You ask a copy operation to stop. A file may still be writing; others may
-already be complete. Before using the result, you need to know what stopped
-and what remains.
+A copy operation receives your request while a file is still being written.
+Other files are already complete. Before using the result, you need to know
+what stopped and what remains.
 
-STOPPER is a small Python library for adding cooperative stopping to operations
-you control. Five executable experiences show what happens when a request
-arrives, what work remains and how the result can be checked.
-
-Try the experiences to observe the behavior, or use the library in your own
-Python program. No knowledge of its source environment is needed.
+STOPPER is a small Python library for cooperative stopping in operations you
+control. Five executable experiences let you observe requests, worker responses
+and partial results. You can try them without knowing the internals, or use
+the same protocol in your own program.
 
 ## Try
 
-Open a terminal in the repository root:
+Open a terminal in the STOPPER folder and run:
 
 ```text
 python -I -S -B examples/run.py E02 --summary
 ```
 
-The example creates five small files, copies two and stops before the other
-three begin. Its controller requests stop at a coordinated point; no manual
+E02 creates five synthetic files, copies two and stops before the remaining
+three start. Its controller acts at a coordinated checkpoint; no manual
 timing is needed.
 
-The summary shows receipt, completed and pending work, and the local check.
-Its `Evidence` line points to the full `result.json`, relative to the STOPPER
-folder. Beside that file, `source/` holds five files and `destination/` holds
-two.
-[Follow E02 step by step](examples/02_interrupt_copy/README.md) to compare
-the report with the files and byte checks.
+Open `result.json` at the printed `Evidence` path. Beside it,
+`source/` contains five files and `destination/` contains two.
+[The E02 guide](examples/02_interrupt_copy/README.md) takes you through
+comparing the report with the files and byte checks.
 
-Python 3.10 or later is required; use your interpreter's path if needed.
-These commands need no installation or download. Source execution was tested
-on Windows 10 with CPython 3.10.6.
-
-| Experience | What you can examine |
+| Experience | What to examine |
 | --- | --- |
-| [E01 — Signal not received](examples/01_signal_not_received/README.md) | Wrong delivery; both jobs complete. |
+| [E01 — Signal not received](examples/01_signal_not_received/README.md) | A misdirected request; both jobs complete. |
 | [E02 — Interrupt a copy](examples/02_interrupt_copy/README.md) | Completed files and a partial destination. |
 | [E03 — Stop without undoing](examples/03_stop_is_not_undo/README.md) | A change remains; the next phase is prevented. |
-| [E04 — Withhold a result](examples/04_presentation_is_not_execution/README.md) | Work completes although delivery is suppressed. |
-| [E05 — Use another operation](examples/05_independent_reuse/README.md) | Reuse in a separate arithmetic batch. |
+| [E04 — Withhold a result](examples/04_presentation_is_not_execution/README.md) | Work completes despite suppressed delivery. |
+| [E05 — Use another operation](examples/05_independent_reuse/README.md) | Reuse in an arithmetic batch. |
 
 Run all five with `python -I -S -B examples/run.py all --summary`.
-Omit `--summary` for the original JSON console output; saved `result.json`
-always stays complete. Each run creates new synthetic data under `.runs/`.
+Omit `--summary` for JSON console output. Saved `result.json` is
+complete in either mode; each run creates new data under `.runs/`.
+
+The commands require Python 3.10 or later, with no installation or download.
+Use your interpreter's path if needed. The
+[verified environment and limits](docs/VERIFICATION.md) are documented.
 
 ## Use
 
-Add `src` to your Python module search path. Give an `Execution` a
-distinct ID and ordered units. Call `begin(unit)` before each operation,
-`complete(unit)` after success, and leave the loop when `begin` returns
-false. `finish()` returns the outcome; `fail(...)` reports a failure.
+Add `src` to your Python module search path. Create an `Execution`
+with a distinct ID and finite, ordered units. Call `begin(unit)` before
+each operation and `complete(unit)` after success. Leave the loop when
+`begin` returns false; `finish()` returns the outcome and `fail(...)`
+reports a failure.
 
 A controller holding the same object calls
 `request_stop(request_id, execution_id)`.
-[E05's working loop](examples/05_independent_reuse/example.py) shows the
-integration. The worker supplies its report; `observe_effects` compares
-it with a supplied checker, distinguishing agreement, mismatch and errors.
+[E05's working loop](examples/05_independent_reuse/example.py) can be adapted
+to file processing, transformations or other batches with cooperation points.
+The worker reports its work; `observe_effects` compares that report with
+a supplied checker.
+
+An AI-agent controller could check before each planned local step or tool call.
+It must own the loop and define its units. No agent adapter is provided, and
+a request does not cancel a model call or tool operation already in progress.
 
 ## Examine
 
@@ -73,22 +75,14 @@ it with a supplied checker, distinguishing agreement, mismatch and errors.
 [executable examples](#try) →
 [checked results](docs/VERIFICATION.md#observed-results).
 
-These arrows describe relationships, not runtime dependencies.
-The examples run without the historical records. Continue through the
-[contract and invariants](docs/CONTRACT.md), [tests](tests/),
-[development decisions](docs/DECISIONS.md) or [origin](docs/ORIGIN.md).
+These are reading paths, not runtime dependencies. Continue with the
+[contract and seven invariants](docs/CONTRACT.md), [tests](tests/),
+[decisions](docs/DECISIONS.md) or [origin](docs/ORIGIN.md).
 Run the suite with `python -I -S -B tests/run.py`.
 
-### Scope and license
-
-Cooperation happens between units; an active unit may finish after a request.
-Completed work remains. STOPPER does not kill processes, cancel remote
-inference, provide general rollback or promise a stopping time.
+Cooperation happens between units. Completed work remains; STOPPER provides
+neither process termination, automatic rollback nor a maximum stopping time.
 It relies on a worker that follows the protocol.
 
-[Verification](docs/VERIFICATION.md) identifies tested versions and remaining
-limits, including unverified package installation and other platforms.
-
-Copyright 2026 Gonzalo Montero (GAMC). New code, project prose and synthetic
-data are under [MIT](LICENSE). Private source records are not distributed
-or relicensed.
+Copyright 2026 Gonzalo Montero (GAMC). New code, prose and synthetic data use
+[MIT](LICENSE). Private source records are not distributed or relicensed.
