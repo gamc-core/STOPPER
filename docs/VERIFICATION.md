@@ -7,7 +7,9 @@ byte-identical between modes and to the original baseline.
 
 Tested executable revision: `b3ff3eb849074fc97ca1f3a733ea9a9607e6bc48`.
 Subsequent documentation changes leave the Python files unchanged.
-The attribution correction changes the project author metadata only.
+Historical attribution and commit references were subsequently corrected;
+Python files and test behavior were preserved. The original history remains
+in private custody.
 
 ## Reproduce
 
@@ -88,9 +90,16 @@ reproduction and reading records remain alongside it.
 Those records are excluded from Git and are unnecessary for reproducing the
 examples. Historical source material remains private.
 
-Later documentary and attribution edits were checked by byte comparison:
-the 53-test result belongs to the tested revision above, not a rerun for those
-edits. The repository remains unpublished.
+After the historical attribution correction and relocation, revision
+`2e50896e981c9bf8392ee4df96e2c45306b88a20` passed a new run of all 53 tests
+and all five scenarios in both modes. Saved reports matched the earlier baseline
+byte for byte; imports and new evidence resolved within the relocated repository.
+Logs and comparisons are in `.verification/attribution_transfer_20261123/`.
+
+Older evidence retains its original revision identifiers and paths. The tested
+revision cited above is the corrected counterpart of the original tested commit;
+the private correspondence preserves that distinction. This later verification
+note changes documentation only. The repository remains unpublished.
 
 [Try E02](../examples/02_interrupt_copy/README.md) ·
 [Contract](CONTRACT.md) · [Origin](ORIGIN.md) · [Main page](../README.md)

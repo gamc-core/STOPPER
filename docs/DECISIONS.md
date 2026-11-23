@@ -65,9 +65,21 @@ changing the product. Both records were retained.
 ### Attribution and synthesis
 
 Public attribution and project metadata were aligned to Gonzalo Montero (GAMC)
-in `c436710`. Earlier commits were retained. The documentation now separates
+in `c436710`. All development steps remain in the history. The documentation now separates
 origin, decisions and current verification rather than repeating the history
 in each place.
+
+### Historical attribution and relocation
+
+The historical file attributions were corrected to Gonzalo Montero (GAMC).
+Author and committer fields already used valid identities. All 16 commits retain
+their original dates, messages and sequence, with unchanged Python files.
+Their identifiers and documentary references changed. The original history
+and old-to-new correspondence remain in private custody.
+
+The repository was relocated and revision `2e50896` passed 53 tests and all five
+scenarios in both output modes from the new location. Saved reports matched the
+earlier baseline byte for byte.
 
 [Origin](ORIGIN.md) · [Current verification](VERIFICATION.md) ·
 [Main page](../README.md)
