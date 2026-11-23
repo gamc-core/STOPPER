@@ -5,14 +5,18 @@
 
 ## Understand
 
+**You asked it to stop. What actually stopped?**
+
 You ask a copy operation to stop. A file may still be writing; others may
 already be complete. Before using the result, you need to know what stopped
 and what remains.
 
-STOPPER lets a cooperating Python worker receive the request, check it between
-units and report the outcome. Developers can use it in local batch operations
-they control. Researchers, designers and people working with AI can use the
-examples to examine what a stopped message means in practice.
+STOPPER is a small Python library for adding cooperative stopping to operations
+you control. Five executable experiences show what happens when a request
+arrives, what work remains and how the result can be checked.
+
+Try the experiences to observe the behavior, or use the library in your own
+Python program. No knowledge of its source environment is needed.
 
 ## Try
 

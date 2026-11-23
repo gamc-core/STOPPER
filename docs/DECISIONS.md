@@ -81,4 +81,11 @@ Executable files, tests, license and ignore rules are unchanged. The
 [verification record](VERIFICATION.md#reading-revision) identifies the
 editorial checks separately from the original test results.
 
+### Reading steps
+
+The follow-up reading cut restored the opening question and separated trying
+the experiences from using the library. Numbered instructions now lead each
+experience to its result and the few checks that matter. Cases, provenance
+and the seven-invariant contract needed no changes in this cut.
+
 [Origin](ORIGIN.md) · [Verification](VERIFICATION.md) · [Main page](../README.md)

@@ -3,18 +3,23 @@
 The `square_batch` function wraps an arithmetic loop with `Execution`,
 independently of the copy worker.
 
-From the repository root:
+## Try it
 
-```text
-python -I -S -B examples/run.py E05
-```
+1. Open a terminal in the STOPPER folder.
+2. Run:
 
-The ordinary run returns `[4, 9, 16, 25, 36]`. A second run requests stop
-after two completed values and returns `[4, 9]`; three units are prevented.
+   ```text
+   python -I -S -B examples/run.py E05
+   ```
 
-Open `result.json` in the printed `evidence_directory` under `.runs/`.
-Compare both outcomes, their distinct IDs, value lists and completed counts.
-The checker examines returned data rather than files.
+3. Open `result.json` in the printed `evidence_directory`.
+
+## What to check
+
+The ordinary run returns `[4, 9, 16, 25, 36]`. A second run requests
+stop after two completed values and returns `[4, 9]`; three units are
+prevented. Compare the outcomes, distinct IDs and completed counts.
+The supplied checker examines returned data rather than files.
 
 To adapt [the loop](example.py), declare finite units and a distinct execution
 ID. Call `begin` before each operation, `complete` after success, and
@@ -23,7 +28,7 @@ stop; report operation failures explicitly.
 The [contract](../../docs/CONTRACT.md) gives the details.
 
 This derived example has no separate historical episode. It demonstrates a
-local integration and control; other operations must provide their own
-cooperation points.
+local integration and control; other operations need their own cooperation
+points.
 
 [All experiences](../../README.md#try) · [Implementation](../../src/stopper/core.py)
