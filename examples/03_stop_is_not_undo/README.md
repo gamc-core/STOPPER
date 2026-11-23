@@ -9,11 +9,11 @@ validation. The changed bytes remain.
 2. Run:
 
    ```text
-   python -I -S -B examples/run.py E03
+   python -I -S -B examples/run.py E03 --summary
    ```
 
-3. Open the printed `evidence_directory` under `.runs/`, then open
-   `synthetic.txt` and `result.json`.
+3. Open `result.json` at the summary's `Evidence` path, then the adjacent
+   `synthetic.txt`. Paths are relative to the STOPPER folder.
 
 ## What to check
 

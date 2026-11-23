@@ -11,12 +11,16 @@ synthetic text files you can inspect.
 2. Run:
 
    ```text
-   python -I -S -B examples/run.py E02
+   python -I -S -B examples/run.py E02 --summary
    ```
 
-3. Find `evidence_directory` in the result. Open that folder, relative to
-   the STOPPER folder.
-4. Open `source/`, `destination/` and `result.json` inside it.
+3. Read the summary: receipt, completed files, work not started and the local
+   check. Its `Evidence` line points to `result.json`.
+4. Open that file and its containing folder, relative to the STOPPER folder.
+   Open the adjacent `source/` and `destination/` folders.
+
+Omit `--summary` to print the original JSON instead. The saved `result.json`
+is complete in either mode.
 
 ## What to check
 

@@ -10,11 +10,11 @@ mismatch. Both jobs complete without observing a stop signal.
 2. Run:
 
    ```text
-   python -I -S -B examples/run.py E01
+   python -I -S -B examples/run.py E01 --summary
    ```
 
-3. Find `evidence_directory` in the result and open that folder under
-   `.runs/`. Open its `result.json`.
+3. Read the summary, then open `result.json` at its `Evidence` path
+   under `.runs/`. The path is relative to the STOPPER folder.
 
 ## What to check
 

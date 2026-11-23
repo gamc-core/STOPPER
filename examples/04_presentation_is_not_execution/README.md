@@ -9,11 +9,11 @@ delivery. The operation still writes its result and completes.
 2. Run:
 
    ```text
-   python -I -S -B examples/run.py E04
+   python -I -S -B examples/run.py E04 --summary
    ```
 
-3. Open the printed `evidence_directory` and compare `computed.txt`
-   with `result.json`.
+3. Open `result.json` at the summary's `Evidence` path and compare it with
+   the adjacent `computed.txt`. Paths are relative to the STOPPER folder.
 
 ## What to check
 

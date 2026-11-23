@@ -23,16 +23,17 @@ Python program. No knowledge of its source environment is needed.
 Open a terminal in the repository root:
 
 ```text
-python -I -S -B examples/run.py E02
+python -I -S -B examples/run.py E02 --summary
 ```
 
 The example creates five small files, copies two and stops before the other
 three begin. Its controller requests stop at a coordinated point; no manual
 timing is needed.
 
-The printed `evidence_directory` is relative to the repository root.
-Open it: `source/` holds five files, `destination/` holds two, and
-`result.json` records completed and prevented work.
+The summary shows receipt, completed and pending work, and the local check.
+Its `Evidence` line points to the full `result.json`, relative to the STOPPER
+folder. Beside that file, `source/` holds five files and `destination/` holds
+two.
 [Follow E02 step by step](examples/02_interrupt_copy/README.md) to compare
 the report with the files and byte checks.
 
@@ -48,8 +49,9 @@ on Windows 10 with CPython 3.10.6.
 | [E04 — Withhold a result](examples/04_presentation_is_not_execution/README.md) | Work completes although delivery is suppressed. |
 | [E05 — Use another operation](examples/05_independent_reuse/README.md) | Reuse in a separate arithmetic batch. |
 
-Run all five with `python -I -S -B examples/run.py all`.
-Each run saves new synthetic data under `.runs/`.
+Run all five with `python -I -S -B examples/run.py all --summary`.
+Omit `--summary` for the original JSON console output; saved `result.json`
+always stays complete. Each run creates new synthetic data under `.runs/`.
 
 ## Use
 

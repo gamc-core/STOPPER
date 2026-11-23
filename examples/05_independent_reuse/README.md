@@ -9,10 +9,11 @@ independently of the copy worker.
 2. Run:
 
    ```text
-   python -I -S -B examples/run.py E05
+   python -I -S -B examples/run.py E05 --summary
    ```
 
-3. Open `result.json` in the printed `evidence_directory`.
+3. Read the ordinary and partial values in the summary, then open the
+   complete `result.json` at its `Evidence` path.
 
 ## What to check
 

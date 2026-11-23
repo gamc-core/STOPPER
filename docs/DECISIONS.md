@@ -88,4 +88,22 @@ the experiences from using the library. Numbered instructions now lead each
 experience to its result and the few checks that matter. Cases, provenance
 and the seven-invariant contract needed no changes in this cut.
 
+### Optional result presentation
+
+The runner saves each complete report before printing it. The smallest
+compatible addition was an opt-in `--summary`: existing commands keep their
+JSON, while the shared runner can describe all five results. No experiment,
+synchronization, receipt or core API changed. Counts and statuses come from
+the returned record; formatting neither reruns checks nor mutates the record.
+
+A dedicated presentation suite covers real synthetic scenarios, JSON bytes
+and shape, unknown/mismatched/error observations, failed saves and preserved
+evidence. The first combined run passed 53 tests: the existing 34 plus 19
+new presentation checks. Clean-copy verification is recorded separately.
+
+An external comparison initially rebuilt the saved JSON from sorted stdout,
+losing its original key order. This was a harness mismatch, not a product
+change. Comparing the actual saved files confirmed byte identity in both
+modes. The failed comparison record and valid outputs were retained.
+
 [Origin](ORIGIN.md) · [Verification](VERIFICATION.md) · [Main page](../README.md)

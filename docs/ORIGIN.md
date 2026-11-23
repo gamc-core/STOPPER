@@ -39,8 +39,9 @@ private workspaces and source Git history.
 Development began on 20 November 2026 with a new Git root, before code was
 written. The implementation assistant was Codex, working under GAMC's
 authorization. [Decisions](DECISIONS.md) records the real findings and
-corrections. The 23 November reading revision preserves that history and
-changes documentation only.
+corrections. The reading-only revision `99f531c` preserves that history. A later
+optional console summary changes the example runner's presentation while
+leaving the library and historical records intact.
 
 ## Source record
 

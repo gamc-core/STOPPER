@@ -9,9 +9,10 @@ The repository has not been published.
 
 The tested implementation revision is
 `8cadf809767a4923fec2b397d89fb3ba25051442`.
-The closing revision `1a1206d` changed documentation only. The 23 November
-reading revision also leaves the 13 Python, test and project-metadata files
-byte-identical to that tested implementation.
+The closing revision `1a1206d` and reading-only revision `99f531c` left the
+13 Python, test and project-metadata files byte-identical to that implementation.
+The later optional presentation changes only the example runner and adds
+presentation tests, as recorded below; the library remains unchanged.
 
 Runtime dependencies are limited to Python's standard library. Package
 installation and wheel building remain unverified: the original build
@@ -25,12 +26,13 @@ From the repository root, using your Python interpreter:
 
 ```text
 python -I -S -B tests/run.py
-python -I -S -B examples/run.py all
+python -I -S -B examples/run.py all --summary
 ```
 
 To begin with one experience, replace `all` with `E02` and follow
-[the copy guide](../examples/02_interrupt_copy/README.md). Each example saves
-a `result.json` in the new `evidence_directory` it prints.
+[the copy guide](../examples/02_interrupt_copy/README.md). The summary names
+the saved `result.json` in its `Evidence` line. Omit `--summary` to retain the
+original JSON console output with its `evidence_directory` field.
 All synthetic output stays under that checkout's `.runs/`.
 
 The clean reproduction used a local Git clone without hardlinks or copied
@@ -108,11 +110,30 @@ No repository content was uploaded for a GitHub-hosted rendering check.
 The new changes and reachable history were reviewed for privacy; the earlier
 ten commits remain in their original order.
 
+## Result presentation
+
+The optional `--summary` describes the returned record and points to its
+complete saved JSON. The original output remains the default. No core state,
+receipt, synchronization or experiment was changed.
+
+The first combined regression run passed 53 tests: the existing 34 plus
+19 presentation checks. Both modes ran on all five scenarios. Their default
+stdout matched the prior JSON format, and saved `result.json` bytes matched
+the originals and each other. These are new checks of the runner, separate
+from the original 34-test evidence. Clean-copy results follow when complete.
+
+The tests include mismatch/error and missing data, failed scenarios and saves,
+preserved existing evidence and the original error JSON fields. The formatter
+performs no new physical check and cannot turn a local checker into independent
+certification.
+
 ## Local evidence
 
 The ignored `.verification/` retains the original reproduction manifest,
 test logs, scenario outputs, first byte-mismatch record, audit and closing
 state. The first failing identity log remains in `.runs/`.
+The `reading_results_20261123` evidence directory retains the follow-up PRE,
+original JSON baseline, presentation tests and both-mode comparisons.
 The `editorial_20261123` subdirectory holds this reading revision's PRE,
 command checks, navigation/privacy report and final state.
 
