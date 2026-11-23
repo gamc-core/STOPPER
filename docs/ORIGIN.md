@@ -1,13 +1,12 @@
 # Origin
 
-STOPPER is an independent construction by Gonzalo Montero (GAMC), derived from
-experiences in DOJO. DOJO is an environment developed within Arquitectura
-Simbiótica (AS), the architecture in which those experiences took place.
+STOPPER is an independent construction by Gonzalo Montero (GAMC), informed by
+problems observed while building and testing DOJO. DOJO is an environment
+developed within Arquitectura Simbiótica (AS), the architecture behind that work.
 
-Stop trials there exposed several different outcomes: a request could fail
-to reach its receiver, prevent a later step, abandon a copy or change only
-what was delivered to the screen. STOPPER carries those distinctions into
-a small, independent implementation.
+Requests to stop could fail to reach their receiver, prevent a later step,
+abandon a copy or change only what was delivered to the screen. Investigating
+and recording those cases led to STOPPER's separate implementation.
 
 ## Historical cases
 
@@ -41,9 +40,9 @@ Historical tests do not validate the new code.
 
 ## Source record
 
-The private report maps the cases to preserved conversations, requests, settlements, interventions
-and custody objects. It remains in the author's custody and is unnecessary
-for running STOPPER.
+The author retains private records linking the cases to the original
+conversations and observations. They remain under private custody and are
+unnecessary for running STOPPER.
 
 The inspection distinguished conversation fields, transported human accounts
 and consumer observations. It did not authenticate people or establish a

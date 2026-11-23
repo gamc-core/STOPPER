@@ -81,5 +81,13 @@ The repository was relocated and revision `2e50896` passed 53 tests and all five
 scenarios in both output modes from the new location. Saved reports matched the
 earlier baseline byte for byte.
 
+### Checkout entry and signal callbacks
+
+Independent review exposed failed example startup through an NTFS junction and
+unit-count corruption from a reentrant signal adapter. In `6ebeb69`, the runners
+resolve the checkout root before checking workspaces, and signal callbacks may
+read snapshots but cannot change execution state. Nine new regression tests
+cover those failures and the existing path and signal boundaries.
+
 [Origin](ORIGIN.md) · [Current verification](VERIFICATION.md) ·
 [Main page](../README.md)

@@ -1,15 +1,15 @@
 # Verification
 
-The current presentation revision passed **53 tests in the original checkout
-and an independent Git copy**: 34 existing checks plus 19 presentation tests.
-All five scenarios ran in JSON and summary modes. Saved results were
-byte-identical between modes and to the original baseline.
+Revision `6ebeb69ac145ae1fd8fefe1c1598034dd3abcaf2` passed **62 tests**
+in isolated checkouts, through direct paths and an NTFS junction: the existing 53 checks plus nine focal regressions.
+All five scenarios ran in JSON and summary modes; saved reports matched
+between modes and the earlier baseline byte for byte.
 
-Tested executable revision: `b3ff3eb849074fc97ca1f3a733ea9a9607e6bc48`.
-Subsequent documentation changes leave the Python files unchanged.
-Historical attribution and commit references were subsequently corrected;
-Python files and test behavior were preserved. The original history remains
-in private custody.
+The new tests cover legitimate junction entry, rejection of output junctions,
+exclusive creation and signal callback reentry. Windows junction tests use a
+native command in disposable synthetic checkouts; other platforms skip those
+two checks. Earlier verification remains recorded in Git and local evidence.
+Subsequent documentation edits leave the tested Python files unchanged.
 
 ## Reproduce
 
@@ -69,10 +69,11 @@ certification.
 
 ## Reproduction and limits
 
-The fresh copy used no hardlinks or prior run data. Its imports resolved
-inside the copy, tracked bytes matched before and after execution, and both
-output modes matched the baseline. `3de166c` closed that verification.
-The [recorded failures and fixes](DECISIONS.md) remain part of the history.
+The isolated copies imported their own code and kept tracked bytes unchanged.
+The examples also ran through the junction. Checked output junctions and
+outside-checkout destinations remained rejected, and existing files were
+not overwritten. The [recorded failures and fixes](DECISIONS.md) remain part
+of the history.
 
 The library relies on a cooperative, honest worker. These checks establish
 neither arbitrary process or remote cancellation, hostile-process containment,
@@ -81,25 +82,15 @@ rollback, general resume, guaranteed latency nor power-loss durability.
 
 ## Local evidence
 
-Raw logs, byte manifests, earlier failed runs and synthetic results remain
-under ignored `.runs/` and `.verification/`. Current presentation
-evidence is in `reading_results_20261123`, including
-`CLEAN_REPRODUCTION.json`, test logs and both-mode comparisons; earlier
-reproduction and reading records remain alongside it.
+Raw logs, byte manifests, failed runs and synthetic results remain under
+ignored `.runs/` and `.verification/`. The current records are in
+`adversarial_resolution_20261123`, including the original failures, corrected
+runs, tested-tree identities and both-mode comparisons. Earlier reproduction
+and presentation evidence remains alongside them.
 
-Those records are excluded from Git and are unnecessary for reproducing the
-examples. Historical source material remains private.
-
-After the historical attribution correction and relocation, revision
-`2e50896e981c9bf8392ee4df96e2c45306b88a20` passed a new run of all 53 tests
-and all five scenarios in both modes. Saved reports matched the earlier baseline
-byte for byte; imports and new evidence resolved within the relocated repository.
-Logs and comparisons are in `.verification/attribution_transfer_20261123/`.
-
-Older evidence retains its original revision identifiers and paths. The tested
-revision cited above is the corrected counterpart of the original tested commit;
-the private correspondence preserves that distinction. This later verification
-note changes documentation only. The repository remains unpublished.
+Those records are excluded from Git and unnecessary for reproducing the
+examples. Historical source material remains private. The repository is
+unpublished.
 
 [Try E02](../examples/02_interrupt_copy/README.md) ·
 [Contract](CONTRACT.md) · [Origin](ORIGIN.md) · [Main page](../README.md)

@@ -59,6 +59,8 @@ reports a failure.
 
 A controller holding the same object calls
 `request_stop(request_id, execution_id)`.
+Keep receipts with the outcome if you need to reconstruct requests, including
+wrong-target and late requests that the outcome does not record.
 [E05's working loop](examples/05_independent_reuse/example.py) can be adapted
 to file processing, transformations or other batches with cooperation points.
 The worker reports its work; `observe_effects` compares that report with

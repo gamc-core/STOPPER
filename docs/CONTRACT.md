@@ -77,9 +77,10 @@ The scope excludes arbitrary process or subprocess-tree termination, remote
 inference cancellation, automatic rollback, universal resume, guaranteed
 latency, power-loss durability, distributed execution and hostile actors.
 
-Examples use synthetic inputs under their own checkout's `.runs/`.
-They reject existing output files and checked link/reparse paths. They do not
-provide containment against concurrent hostile filesystem replacement.
+Examples place synthetic inputs and outputs under their checkout's `.runs/`.
+The helpers accept paths throughout the checkout, use exclusive output creation,
+and reject checked link/reparse paths. They do not provide containment against
+concurrent hostile filesystem replacement.
 
 [Working integration](../examples/05_independent_reuse/example.py) ·
 [Coverage](VERIFICATION.md#contract-coverage) · [Main page](../README.md)
