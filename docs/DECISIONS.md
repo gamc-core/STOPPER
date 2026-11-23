@@ -1,85 +1,84 @@
 # Development decisions
 
-## Cut 1 â€” scope before code
-- Destination did not exist. A new repository was initialized before implementation.
-- Conventional threading.Event; one cooperative execution, finite ordered units.
-- Worker reports and physical checking remain distinct.
-- Seven invariants retain computable boundaries in the contract.
-- No source Git history, private runtime, raw conversations or public remote.
-- Local Git attribution uses GAMC and a reserved .invalid email; it does not
-  authenticate identity or expose a personal email.
-- The actual implementation executor is Codex.
-- New code and original project documentation/data: MIT. Historical summaries
-  will be new sanitized descriptions, not raw dumps.
+The repository began before implementation and retains the findings that
+changed its construction. Commit IDs below identify that process; the
+earlier commits have not been rewritten.
 
-## Cut 2 â€” first capability
-- Implemented ordered begin/complete/finish, distinct receipts and immutable
-  outcome snapshots. The caller owns its worker and must respect begin.
-- Added read/write signal errors, late and duplicate receipt handling, and a
-  separate physical-check result (VERIFIED / MISMATCH / ERROR).
-- First execution of the core suite: 22 tests passed on Windows, Python 3.10.6.
-  This result concerns the new code, not the historical AS implementation.
+## 20 November 2026
 
-## First physical example
-- E01 distinguishes delivery to a wrong target from receipt without effect.
-- E02 copied two of five synthetic files, stopped before the remaining three,
-  and verified destination bytes and unchanged source hashes. The second
-  active unit completed; no within-file interruption is claimed.
-- Core plus first file examples: 26 tests passed. No timing sleeps were used.
+### Scope before code
 
-## Negative finding before correction
-- The additional identity regression failed: execution_id was assignable after
-  construction. The 27-test run had one failure. This is a real protocol gap
-  in the new code, not a historical AS failure.
-- The regression and finding are recorded before fixing the binding. The raw
-  local test log remains under .runs/identity_negative_before_fix.txt and is
-  excluded from distribution. No source history is imported.
+The first contract (`3cde351`) chose a conventional `threading.Event`
+and a finite ordered job. A worker would check between units, while receipts
+and observations remained separate. This kept the useful relationship
+without importing the private runtime, authority contracts or Git history.
 
-## Correction and file boundary
-- execution_id now has a read-only public property. The negative regression
-  passes; private attribute tampering remains outside the trusted-worker model.
-- Reviewed workspace helpers: reject parent traversal before mkdir and reject
-  reparse/link flags. Reparse-flag rejection has a controlled unit test; no
-  Windows ACLs or real system links were changed to test it.
-- The resulting focused suite passed 29 tests.
+The first implementation (`247a389`) introduced `begin`, `complete`
+and `finish`, immutable outcomes and a separate physical-check result.
+Its initial suite passed 22 tests.
 
-## Remaining scenarios and reuse
-- E03 preserves a completed file modification and prevents validation.
-- E04 completes local work, suppresses presentation, records NO_EFFECT, and
-  demonstrates a later TOO_LATE receipt. No remote call is made.
-- E05 uses the core in a separate arithmetic loop, with a full control run
-  and a two-item partial. Control and stopped executions have distinct IDs.
-- The first five-scenario execution passed, and the expanded suite passed
-  34 tests. Final clean-copy verification is still pending at this stage.
+### First files and a failed identity check
 
-## Packaging and lifecycle review
-- A metadata probe found that wheel is absent. It did not install or run a
-  package build. Removed the unverified offline pip command from README;
-  retained the tested no-install source route and conventional metadata.
-- The earlier metadata probe ended before reporting its navigation summary;
-  the focused link check was completed separately. No product failure is
-  inferred from a missing optional build tool.
-- Added teardown checks for live example workers after every file-example test.
+E01 and E02 (`4254000`) put the protocol to work. E02 copied two of five
+synthetic files and prevented the next three, checking destination bytes
+and unchanged source hashes. The active second unit finished. At that point,
+26 tests passed.
 
-## First clean-copy finding
-- Original and clean-copy runs each passed 34 tests; all five clean-copy
-  examples passed and imported only the copied package.
-- The byte-identity assertion nevertheless failed on 27 tracked files. The
-  copy inherited system Git core.autocrlf=true; all differences were CRLF/LF.
-  The earlier run and byte-mismatch evidence are retained, not relabeled PASS.
-- Added repository-local .gitattributes with LF checkout policy and normalized
-  candidate text. No global Git or canonical configuration was changed.
-- A new copy must confirm the corrected bytes before reproduction is closed.
+An added regression then exposed a real gap: the public `execution_id`
+attribute could be reassigned. The 27-test run had one failure.
+The failing test was committed first (`8f8c21e`), before a read-only
+property fixed the binding (`9ad1faa`).
 
-## Cut 4 — corrected clean reproduction and closure
-- The corrected fresh Git copy matched tracked bytes before and after tests.
-- Original and clean copies passed 34 tests each; the five clean-copy CLI
-  scenarios passed. Import resolution pointed inside the new copy.
-- Runtime remains standard-library-only and offline. No packaging build or
-  external dependency installation was attempted.
-- Focused history/path/import review found no private-pattern matches,
-  linked tracked paths, private imports, Git alternates or remotes. Six
-  consulted source-file hashes remained unchanged.
-- Closing changes are documentary; executable hashes are compared with the
-  tested revision rather than rerunning unchanged code for the closing prose.
-- Final status is PRIVATE PUBLICATION CANDIDATE, never published.
+The same review tightened example paths: parent traversal is rejected before
+directory creation, and link/reparse flags are checked. A controlled test
+covers flag rejection without creating privileged system links. Private
+attribute tampering and hostile filesystem races remain outside the scope.
+The suite then passed 29 tests.
+
+### Complete scenarios and limits
+
+The remaining scenarios (`feaad94`) showed a change persisting after stop,
+delivery being suppressed while work completed, and reuse in a separate
+arithmetic loop. The suite reached 34 tests. Documentation and sanitized
+cases followed in `7a4eed2`.
+
+A packaging probe found `wheel` unavailable. An unverified offline pip
+instruction was removed; source execution remained the supported reproduction
+route. `07b0296` also added checks that example workers had settled.
+Installation and wheel building were not validated.
+
+### Clean reproduction and a byte mismatch
+
+The first fresh Git copy passed 34 tests and all five scenarios, but its
+byte-identity check failed on 27 files. The copy inherited system Git
+`core.autocrlf=true`, converting LF to CRLF. All differences were line
+endings; the earlier failure remained recorded.
+
+A repository-local `.gitattributes` policy fixed checkout representation
+(`8cadf80`) without changing global Git configuration. A new copy then
+matched tracked bytes, passed the same 34 tests and ran all five examples.
+Package imports resolved inside that copy. `1a1206d` recorded the close
+and its limits.
+
+Git attribution uses a reserved `.invalid` address rather than a personal
+email. Code, project prose and synthetic data use MIT; the underlying private
+records remain excluded.
+
+## 23 November 2026 — Reading and navigation
+
+The reading revision gives E02 the first-run path, connects examples back to
+their source experiences, and places a single linked map in the main page.
+Cases use continuous accounts; origin, decisions and verification keep their
+separate responsibilities. Internal supervision text and encoding-damaged
+headings were removed without rewriting the original commits.
+
+The seven invariants remain. I5's wording now makes clear that a failed
+outcome does not confirm completion, even if the worker already reported all
+units complete. This clarifies the existing code, including signal failure
+at the terminal boundary; it adds no new behavior.
+
+Executable files, tests, license and ignore rules are unchanged. The
+[verification record](VERIFICATION.md#reading-revision) identifies the
+editorial checks separately from the original test results.
+
+[Origin](ORIGIN.md) · [Verification](VERIFICATION.md) · [Main page](../README.md)

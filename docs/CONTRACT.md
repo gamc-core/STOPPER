@@ -1,64 +1,84 @@
 # Contract 0.1
 
-STOP REQUESTED IS NOT STOP EFFECTIVE.
+**STOP REQUESTED IS NOT STOP EFFECTIVE.**
 
-## Scope
-One in-process execution has a fixed, finite, ordered list of unique unit names.
-Its worker calls `begin(unit)` before each unit, `complete(unit)` afterward,
-and `finish()` when done. The library owns a fresh threading.Event and lock by default. A custom
-signal_factory must return an independent adapter for each execution.
-A worker must stop calling its operation when begin returns false.
-Only one unit may be active; the library does not create or terminate threads.
+A worker cooperates by checking a request before it starts the next unit.
+The receipt, the worker's outcome and a check of its actual effects answer
+different questions.
 
-The caller assigns a distinct execution ID within its routing context; STOPPER
-is an object API, not a global ID registry or message router.
-A request contains a request ID and target execution ID.
-A wrong target is NOT_RECEIVED by this execution. A correct preterminal request
-is RECEIVED; this proves intake, not worker cooperation. Repeating its ID is
-idempotent. A new request after terminal is TOO_LATE and cannot rewrite outcome.
+## Execution and receipt
 
-begin checks the signal before starting a unit, under the execution lock.
-If observed with units remaining, it prevents those units and settles STOPPED.
-A partial run has effect INTERRUPTED; a stop before any unit has effect
-PREVENTED_FUTURE. These mean cooperative abandonment of the whole job at a unit boundary,
-not interruption inside an active unit.
-An active unit cannot be interrupted. finish requires all units completed
-unless an earlier boundary already settled STOPPED or the worker failed.
-A request with no remaining work has effect NO_EFFECT; otherwise a normal
-completion has effect NONE. Signal read/write errors settle FAILED and raise
-SignalError. Worker failure settles FAILED, retaining started/completed work.
+An execution is local to one process, with a fixed, finite, ordered list of
+unique unit names. The caller assigns a distinct execution ID within its
+routing context. STOPPER provides an object API rather than a global registry.
 
-## Invariants and their boundaries
-- I1: RECEIVED does not imply STOPPED; receipt and outcome are separate.
-- I2: target mismatch cannot set this execution's signal; instances do not share
-  their default Event. IDs are caller-chosen labels, not authenticated actors.
-- I3: started units never appear in prevented. Units run in declared order.
-- I4: no rollback; completing a unit does not register an undo operation.
-- I5: COMPLETED requires every planned unit completed; STOPPED/FAILED is partial.
-- I6: terminal outcome is stable under later requests, including late requests.
-- I7: signal failure is FAILED, never a successful stop. Physical observation
-  produces VERIFIED, MISMATCH or ERROR separately. Neither MISMATCH nor ERROR
-  confirms a reported effect.
+The worker calls `begin(unit)` before its operation, `complete(unit)`
+after success, and `finish()` when done. Only one unit can be active.
+When `begin` returns false, the worker must leave the loop. The library
+does not create or terminate its worker thread.
 
-The library enforces this protocol, not the truthfulness of arbitrary workers.
-Started/completed are worker reports. The examples compare reports with their
-actual files/data. A worker can lie or ignore begin; STOPPER cannot prevent that.
-observe_effects catches observation errors; VERIFIED means only that the
-supplied local checker returned exactly True. It is not an independent
-certificate, authentication, or proof of complete system history.
+Each execution has its own `threading.Event` and lock by default.
+A custom `signal_factory` must supply a fresh independent adapter for
+each execution.
+
+A request names a request ID and target execution ID. A wrong target yields
+`NOT_RECEIVED`. A correct request before terminal yields `RECEIVED`;
+this confirms intake, not cooperation. Repeating its ID is idempotent.
+A new request after terminal yields `TOO_LATE` without rewriting the outcome.
+
+## Cooperation and completion
+
+Under the execution lock, `begin` checks the signal before starting a unit.
+If the signal is observed with units remaining, those units are prevented
+and the job settles `STOPPED`. Its effect is `PREVENTED_FUTURE` when
+no unit completed, or `INTERRUPTED` after partial work.
+
+Both effects refer to abandoning the job at a unit boundary. The protocol
+does not interrupt inside an active unit. Completed work remains in place.
+
+`finish()` requires every unit completed unless the execution already
+stopped or failed. A completed job with a preterminal request has effect
+`NO_EFFECT`; ordinary completion without a request has effect `NONE`.
+Signal read/write errors settle `FAILED` and raise `SignalError`.
+A reported worker failure also settles `FAILED`, retaining its work counts.
+
+## Seven invariants
+
+| | Property | Boundary |
+| --- | --- | --- |
+| I1 | Receipt differs from effect. | `RECEIVED` does not imply `STOPPED`. |
+| I2 | Requests belong to an execution. | Target mismatch cannot set its signal; default Events are separate. IDs are caller-chosen labels. |
+| I3 | Prevention is not retroactive. | A started unit never appears in `prevented`; units begin in declared order. |
+| I4 | Stopping does not undo work. | Completing a unit registers no rollback. |
+| I5 | Incomplete work is not declared complete. | `COMPLETED` requires all units completed. A failed outcome does not confirm overall completion, even if all unit completions were reported. |
+| I6 | A terminal outcome is stable. | Later requests cannot rewrite it. |
+| I7 | An observation error is not a successful stop. | Signal failure yields `FAILED`; physical-check mismatch/error does not confirm the reported effect. |
 
 ## Outcome
-An immutable snapshot records execution ID, terminal state, effect, planned,
-started, completed, not_started, prevented, request IDs, observed checkpoints,
-and error information. No file persistence is required by the core.
-A FAILED run may retain an active/incomplete unit: its effects are unknown
-until the caller inspects them. No incomplete outcome is called COMPLETED.
 
-## Exclusions
-No arbitrary process kill, remote inference cancellation, subprocess-tree
-termination, rollback, universal resume, maximum latency, crash durability,
-authentication, distributed execution, or hostile-process containment.
+An immutable snapshot records execution ID, state, effect, planned, started,
+completed, not-started and prevented units, request IDs, observed checkpoints
+and errors. The core does not persist files. A failed run can retain an
+unfinished active unit whose physical effects still need inspection.
 
-Examples write only synthetic data under their own repository's .runs directory.
-They reject preexisting outputs and reparse/link paths where checked. Concurrent
-hostile filesystem replacement is outside the trust model.
+These counts are worker reports. The protocol enforces their order and state
+transitions, but a worker can ignore it or report dishonestly. The examples
+compare reports with actual files or data.
+
+`observe_effects` expects a terminal outcome. Its supplied checker yields
+`VERIFIED` only when it returns exactly true, `MISMATCH` when false,
+and `ERROR` on an exception or non-boolean result. Agreement with that
+checker is not independent certification or authentication.
+
+## Limits
+
+The scope excludes arbitrary process or subprocess-tree termination, remote
+inference cancellation, automatic rollback, universal resume, guaranteed
+latency, power-loss durability, distributed execution and hostile actors.
+
+Examples use synthetic inputs under their own checkout's `.runs/`.
+They reject existing output files and checked link/reparse paths. They do not
+provide containment against concurrent hostile filesystem replacement.
+
+[Working integration](../examples/05_independent_reuse/example.py) ·
+[Coverage](VERIFICATION.md#contract-coverage) · [Main page](../README.md)

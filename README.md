@@ -1,99 +1,88 @@
 # STOPPER
 *Cooperative stopping and observable outcomes*
 
-**You asked it to stop. What actually stopped?**
+**[Understand](#understand) → [Try](#try) → [Use](#use) → [Examine](#examine)**
 
-A batch job may receive your stop request, finish its current unit, and leave
-some work behind. STOPPER helps a cooperating worker report that difference:
-request received, signal observed, units completed, and units not started.
+## Understand
 
-For people writing local Python batch operations they can instrument. The
-library does not run or kill threads. A worker checks before starting each unit.
-No network, service, private runtime, or runtime dependency is required.
+You ask a copy operation to stop. A file may still be writing; others may
+already be complete. Before using the result, you need to know what stopped
+and what remains.
 
-**Status: private publication candidate. Publication requires GAMC's decision.**
+STOPPER lets a cooperating Python worker receive the request, check it between
+units and report the outcome. Developers can use it in local batch operations
+they control. Researchers, designers and people working with AI can use the
+examples to examine what a stopped message means in practice.
 
-## Understand → Try → Use → Examine
+## Try
 
-### Try
-From this checkout, with Python 3.10 or later (use your interpreter path if
-python is not on PATH):
+Open a terminal in the repository root:
 
 ```text
-python -I -S -B examples/run.py all
-python -I -S -B tests/run.py
+python -I -S -B examples/run.py E02
 ```
 
-No installation or download is needed. Actually tested on Windows 10 with
-CPython 3.10.6; other platforms/versions are unverified.
+The example creates five small files, copies two and stops before the other
+three begin. Its controller requests stop at a coordinated point; no manual
+timing is needed.
 
-Each example prints one JSON result. Synthetic files and saved results remain
-inside `.runs/` in this checkout, with a new directory per execution.
-Nothing is copied from your projects or private history.
-Do not use a checkout whose files/parents another actor is replacing.
+The printed `evidence_directory` is relative to the repository root.
+Open it: `source/` holds five files, `destination/` holds two, and
+`result.json` records completed and prevented work.
+[Follow E02 step by step](examples/02_interrupt_copy/README.md) to compare
+the report with the files and byte checks.
 
-| Example | What to look for |
+Python 3.10 or later is required; use your interpreter's path if needed.
+These commands need no installation or download. Source execution was tested
+on Windows 10 with CPython 3.10.6.
+
+| Experience | What you can examine |
 | --- | --- |
-| [E01: signal not received](examples/01_signal_not_received/README.md) | Wrong target; both jobs complete. |
-| [E02: interrupt a copy](examples/02_interrupt_copy/README.md) | Two files copied, three not started; bytes checked. |
-| [E03: stopping is not undo](examples/03_stop_is_not_undo/README.md) | Modified file remains; validation never starts. |
-| [E04: presentation is not execution](examples/04_presentation_is_not_execution/README.md) | Work completes although delivery is suppressed. |
-| [E05: independent reuse](examples/05_independent_reuse/README.md) | A separate arithmetic batch uses the same library. |
+| [E01 — Signal not received](examples/01_signal_not_received/README.md) | Wrong delivery; both jobs complete. |
+| [E02 — Interrupt a copy](examples/02_interrupt_copy/README.md) | Completed files and a partial destination. |
+| [E03 — Stop without undoing](examples/03_stop_is_not_undo/README.md) | A change remains; the next phase is prevented. |
+| [E04 — Withhold a result](examples/04_presentation_is_not_execution/README.md) | Work completes although delivery is suppressed. |
+| [E05 — Use another operation](examples/05_independent_reuse/README.md) | Reuse in a separate arithmetic batch. |
 
-The workers synchronize at explicit checkpoints. Timeout values only detect a
-broken example; they do not choose when a request should arrive.
+Run all five with `python -I -S -B examples/run.py all`.
+Each run saves new synthetic data under `.runs/`.
 
-### Use
-In your own environment, add this checkout's `src` to the module search path.
-The no-install commands above are the tested offline reproduction route.
-`pyproject.toml` declares conventional setuptools packaging metadata; package
-installation and wheel building are not verified in this candidate. The local
-build environment lacks wheel, and no build dependency was downloaded.
+## Use
 
-```python
-from stopper import Execution
+Add `src` to your Python module search path. Give an `Execution` a
+distinct ID and ordered units. Call `begin(unit)` before each operation,
+`complete(unit)` after success, and leave the loop when `begin` returns
+false. `finish()` returns the outcome; `fail(...)` reports a failure.
 
-job = Execution("my-distinct-job-id", ["first", "second"])
-for unit in ("first", "second"):
-    if not job.begin(unit):
-        break
-    do_your_unit(unit)  # Your operation; an active unit must finish or fail.
-    job.complete(unit)
-outcome = job.finish()
+A controller holding the same object calls
+`request_stop(request_id, execution_id)`.
+[E05's working loop](examples/05_independent_reuse/example.py) shows the
+integration. The worker supplies its report; `observe_effects` compares
+it with a supplied checker, distinguishing agreement, mismatch and errors.
 
-# A controller holding this object may call, while the worker is active:
-# receipt = job.request_stop("my-request-id", job.execution_id)
-```
+## Examine
 
-If your operation raises, report `job.fail("operation failed")`; do not call
-`complete` for work you cannot confirm. Keep the real exception in your own
-appropriate logs. [E05](examples/05_independent_reuse/example.py) is a runnable,
-caller-owned integration.
+[Historical experiences](docs/ORIGIN.md#historical-cases) →
+[independent implementation](src/stopper/core.py) →
+[executable examples](#try) →
+[checked results](docs/VERIFICATION.md#observed-results).
 
-A receipt confirms intake, not interruption. Inspect the outcome; compare it
-with the actual files/data you care about. `observe_effects(outcome, checker)`
-keeps VERIFIED, MISMATCH and ERROR separate. A supplied checker is not an
-independent certificate.
+These arrows describe relationships, not runtime dependencies.
+The examples run without the historical records. Continue through the
+[contract and invariants](docs/CONTRACT.md), [tests](tests/),
+[development decisions](docs/DECISIONS.md) or [origin](docs/ORIGIN.md).
+Run the suite with `python -I -S -B tests/run.py`.
 
-### Examine
-- [Contract and seven bounded invariants](docs/CONTRACT.md)
-- [Origin, derivation and historical cases](docs/ORIGIN.md)
-- [Development decisions and real failed regression](docs/DECISIONS.md)
-- [Candidate verification and reproduction](docs/VERIFICATION.md)
-- [Tests](tests/) and [implementation](src/stopper/core.py)
+### Scope and license
 
-### Limits
-Cooperation happens between units. STOPPER does not interrupt an active file
-copy, undo changes, cancel a remote model, terminate subprocesses, resume any
-partial job, or guarantee a stopping time. IDs are local labels, not authority.
-It relies on the worker respecting the protocol and reporting honestly.
+Cooperation happens between units; an active unit may finish after a request.
+Completed work remains. STOPPER does not kill processes, cancel remote
+inference, provide general rollback or promise a stopping time.
+It relies on a worker that follows the protocol.
 
-## Origin and license
-Derived from human experiences in Arquitectura Simbiotica / DOJO, with a new
-implementation using Python's conventional `threading.Event`.
-The private runtime and Git history were not imported. Historical summaries
-and new experiments are explicitly separated.
+[Verification](docs/VERIFICATION.md) identifies tested versions and remaining
+limits, including unverified package installation and other platforms.
 
-Copyright 2026 Gonzalo Montero (GAMC). New code, project documentation and
-synthetic example data are under [MIT](LICENSE). Underlying private source
-records and conversations are not distributed or relicensed.
+Copyright 2026 Gonzalo Montero (GAMC). New code, project prose and synthetic
+data are under [MIT](LICENSE). Private source records are not distributed
+or relicensed.

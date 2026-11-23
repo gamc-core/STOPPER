@@ -1,20 +1,27 @@
-# 000132 — a partial copy remained
-**Historical checked evidence:** 19 September 2026. A human authorized an
-innocuous proposed change and then used a double-click stop gesture while its
-isolated environment was being prepared. The copy was abandoned between files.
-A partial containing 656 files remained invalid; the mutation backend did not
-run. "Quarantine" was a logical invalidation, not a demonstrated directory move.
+# 000132 — The copy stopped and left a partial workspace
 
-The request and settlement timestamps differ by 0.010006 seconds. This is an
-interval between recorded events, not total human response time or a general
-latency guarantee. The later 44-test historical result concerns its old bytes.
+19 September 2026
 
-**Interpretation:** interruption can be effective within a bounded cooperative
-operation while leaving a partial that must not be treated as ready.
+An operator authorized an innocuous proposed change, then used a double-click
+stop gesture while the system was preparing an isolated workspace. The copy
+was abandoned between files. A partial containing 656 files remained invalid,
+and the mechanism that would apply the proposed change did not run.
 
-**Derived example:** [E02](../../examples/02_interrupt_copy/README.md) copies
-synthetic data with its own counts. It does not copy the private tree or
-reproduce the 656-file number.
-**New tests:** compare the new reports with destination bytes and source hashes.
+The record described the partial as quarantined. This meant logical
+invalidation; it did not establish that the directory had been moved.
+The incomplete workspace remained something to account for, rather than a
+ready result.
 
-[Provenance and omissions](../../docs/ORIGIN.md)
+The request and settlement timestamps differ by 0.010006 seconds. That is an
+interval between recorded events, not the person's total waiting time or a
+general latency guarantee. The later 44-test result applies to the historical
+code revision.
+
+This episode showed a useful boundary: preparation could be abandoned while
+its partial output remained visible and unusable as a complete workspace.
+[E02](../../examples/02_interrupt_copy/README.md) builds a new, synthetic copy
+experiment around that distinction. Its own file counts and byte checks do
+not reproduce the private tree or inherit the historical test result.
+
+[Origin and source record](../../docs/ORIGIN.md#source-record) ·
+[All experiences](../../README.md#try)

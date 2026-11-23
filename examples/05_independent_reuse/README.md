@@ -1,21 +1,29 @@
-# E05 — Reuse in a caller-owned batch
-Run:
+# E05 — Use STOPPER in another operation
+
+The `square_batch` function wraps an arithmetic loop with `Execution`,
+independently of the copy worker.
+
+From the repository root:
+
 ```text
 python -I -S -B examples/run.py E05
 ```
-The square_batch function in example.py uses Execution around a small arithmetic
-loop. It imports no file-copy worker and requires no private state.
 
-The ordinary run returns five squared values. In the second run, a controller
-requests stop after two completed values; the next begin cooperates. The two
-values remain, and the other three are prevented. Inspect both outcomes and
-the value lists. Execution IDs distinguish the two runs.
+The ordinary run returns `[4, 9, 16, 25, 36]`. A second run requests stop
+after two completed values and returns `[4, 9]`; three units are prevented.
 
-To adapt the integration: declare a finite unit list, assign a distinct run ID,
-call begin before your operation and complete only after success. Keep your
-controller's reference to that job. Handle your operation's failures explicitly.
-The core protocol is shared; the arithmetic loop belongs to its caller.
+Open `result.json` in the printed `evidence_directory` under `.runs/`.
+Compare both outcomes, their distinct IDs, value lists and completed counts.
+The checker examines returned data rather than files.
 
-This is a derived reuse example, not an additional historical case. It
-demonstrates local integration and an ordinary control, not usefulness already
-validated by outside users or suitability for noncooperative operations.
+To adapt [the loop](example.py), declare finite units and a distinct execution
+ID. Call `begin` before each operation, `complete` after success, and
+leave when `begin` returns false. A controller holding the job can request
+stop; report operation failures explicitly.
+The [contract](../../docs/CONTRACT.md) gives the details.
+
+This derived example has no separate historical episode. It demonstrates a
+local integration and control; other operations must provide their own
+cooperation points.
+
+[All experiences](../../README.md#try) · [Implementation](../../src/stopper/core.py)

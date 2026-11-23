@@ -1,65 +1,70 @@
-# Origin and derivation
+# Origin
 
-Arquitectura Simbiotica is GAMC's environment for constructing, operating and
-preserving work with human authority. DOJO is a human interaction environment
-within it. Its historical STOP developed from recording requests into
-cooperative prevention, bounded copy interruption, and more faithful feedback.
+STOPPER grew from stop trials in Arquitectura Simbiótica, Gonzalo Montero (GAMC)'s environment for constructing and preserving work with human
+involvement. DOJO provides its human interaction environment. In those trials,
+a request to stop could reach a worker too late, prevent a later step, abandon
+a copy, or change only what was delivered to the screen.
 
-STOPPER is a new independent construction derived from those experiences.
-It is not the private STOP runtime, an export of its authority contracts, or
-a claim of universal cancellation.
+The historical mechanism developed from recording requests into cooperative
+prevention, bounded copy interruption and more faithful feedback. STOPPER
+takes those distinctions into a small independent implementation.
 
-## What was carried, replaced and excluded
-- Carried conceptually: request is not effect; target execution; cooperation
-  boundaries; completed and prevented work; honest partial/late/error outcomes.
-- Implemented anew: this small Python object API, outcome/receipt types,
-  observation helper, five synthetic scenarios, tests and documentation.
-- Conventional mechanism: threading.Event and standard thread synchronization.
-  No source code was copied from the private runtime or external libraries.
-- Excluded: private imports, execution/validation engines, authority, identity
-  authentication, promotion, conversations, work trees, original payloads and
-  source Git objects.
-- Historical test results do not validate STOPPER. Its tests and reproduction
-  concern the new bytes.
+## Historical cases
 
-## Historical summaries selected for the candidate
-| Checked source case | Retained facts | Derived example |
+| Experience | What remained important | New experiment |
 | --- | --- | --- |
-| [000129](../cases/000129/README.md) | A gesture did not reach intake. | E01 |
-| [000132](../cases/000132/README.md) | Copy abandoned; invalid partial preserved. | E02 |
-| [000142](../cases/000142/README.md) | Change already made; later validators prevented. | E03 |
-| [000144–147](../cases/000144_000147/README.md) | Late calls versus local suppression. | E04 |
+| [000129 — gesture not received](../cases/000129/README.md) | An attempted intervention did not reach intake. | [E01](../examples/01_signal_not_received/README.md) |
+| [000132 — copy abandoned](../cases/000132/README.md) | An invalid partial remained; mutation never began. | [E02](../examples/02_interrupt_copy/README.md) |
+| [000142 — change already made](../cases/000142/README.md) | Later validation stopped while the modification remained. | [E03](../examples/03_stop_is_not_undo/README.md) |
+| [000144–147 — response withheld](../cases/000144_000147/README.md) | Local suppression did not demonstrate provider cancellation. | [E04](../examples/04_presentation_is_not_execution/README.md) |
 
-These are original, sanitized summaries, not original records or reconstructed
-experimental results. They omit personal paths, request/cycle/message IDs,
-full conversations, file contents and internal authority references.
-Session numbers remain only as necessary historical locators.
+These pages are new, sanitized summaries of checked historical records.
+They separate the recorded facts and their limits from the interpretation
+that motivated each example. The examples use synthetic inputs and produce
+new results. STOPPER's tests concern its own code; historical test outcomes
+do not transfer to it. E05 is a derived reuse example without another
+historical episode.
 
-## Private provenance anchor
-The existing private inspection report
-maps each case to original conversations, requests, settlements, interventions
-and custody objects. It remains in GAMC's private custody; it is not required
-to run or install STOPPER. No new index or private-record copy was created.
+## Independent construction
 
-The source inspection checked the historical records, including distinctions
-between direct conversation fields, transported human reports and physical
-consumer records. It does not newly authenticate actors or certify a complete
-historical timeline. Some intermediate implementation versions were not
-preserved individually.
+The execution API, receipts, outcome snapshots, observation helper, examples
+and tests were implemented anew. Signaling uses Python's conventional
+`threading.Event`. No private runtime or external library code was copied.
 
-Historical checked evidence, interpretation, derived example and new test
-results have different roles; the case pages label them. Raw human quotations
-are intentionally excluded from this candidate. GAMC must review the summaries
-before any publication.
+The construction retains the relationship between a request, its execution,
+a cooperation boundary and the work left behind. It leaves out the original
+execution and validation engines, authority contracts, promotion mechanisms,
+private workspaces and source Git history.
 
-## New development
-GAMC authorized this bounded private construction on 20 November 2026.
-The actual implementation assistant was Codex. Git began before code and
-contains its real contract, implementation, examples, negative finding and fix.
-No commits or Git objects from Arquitectura Simbiotica were imported.
-No remote has been added, and publication is not authorized.
+Development began on 20 November 2026 with a new Git root, before code was
+written. The implementation assistant was Codex, working under GAMC's
+authorization. [Decisions](DECISIONS.md) records the real findings and
+corrections. The 23 November reading revision preserves that history and
+changes documentation only.
 
-## Reuse conditions
-MIT covers the new code, project prose and synthetic data in this repository.
-It does not grant access to or rights over the underlying private records,
-conversations or third-party material. No runtime dependency is bundled.
+## Source record
+
+The private inspection report
+maps each case to its preserved conversation, request, settlement, intervention
+and custody objects. It remains in the author's custody and is not needed
+to use STOPPER.
+
+The summaries omit personal paths, detailed execution IDs, full conversations,
+work files and internal authority references. Session numbers remain as
+historical locators. The inspection distinguished direct conversation fields,
+transported human reports and consumer observations. It did not newly
+authenticate people or establish a complete historical timeline; some
+intermediate implementation versions were not preserved individually.
+
+The underlying private records are not included. These summaries make their
+relationship to the new experiments explicit without replacing the originals
+or making the historical executions independently reproducible.
+
+## Reuse
+
+[MIT](../LICENSE) covers the new code, project prose and synthetic data.
+It does not grant access to, or rights over, the underlying private records,
+conversations or third-party material.
+
+[Start with E02](../examples/02_interrupt_copy/README.md) ·
+[Verification](VERIFICATION.md) · [Main page](../README.md)
