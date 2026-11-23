@@ -99,7 +99,9 @@ the returned record; formatting neither reruns checks nor mutates the record.
 A dedicated presentation suite covers real synthetic scenarios, JSON bytes
 and shape, unknown/mismatched/error observations, failed saves and preserved
 evidence. The first combined run passed 53 tests: the existing 34 plus 19
-new presentation checks. Clean-copy verification is recorded separately.
+new presentation checks. A fresh Git copy then passed the same 53 tests and
+all five scenarios in both modes. Tracked bytes matched, imports stayed inside
+the copy, and the complete saved JSON matched the original files.
 
 An external comparison initially rebuilt the saved JSON from sorted stdout,
 losing its original key order. This was a harness mismatch, not a product

@@ -1,9 +1,10 @@
 # Verification
 
-STOPPER's source execution was reproduced in a fresh Git copy on Windows 10
-with CPython 3.10.6, 64-bit. The original and clean copy each passed 34 tests;
-all five examples passed. Their reports were contrasted with files or data.
-The repository has not been published.
+The original STOPPER snapshot passed 34 tests in its source and a fresh Git
+copy. The later console presentation passed 53 tests in both locations: those
+34 checks plus 19 new presentation tests. All five scenarios ran in JSON and
+summary modes, with unchanged saved results. The environment was Windows 10,
+CPython 3.10.6, 64-bit. The repository has not been published.
 
 ## Implementation checked
 
@@ -97,10 +98,10 @@ not a full source-system audit or a guarantee against every secret pattern.
 generated folders and saved result. E01, E03, E04 and E05 were then run using
 their documented commands. All five passed, with separate file/data contrasts.
 
-Because the change is editorial, the original 34-test results were retained
-rather than represented as a newly executed suite. The 13 executable/test/
-metadata files still match the tested hashes. All 303 pre-existing local
-evidence files were preserved unchanged.
+In that reading-only revision (`99f531c`), the original 34-test results were
+retained rather than represented as a new suite. The 13 executable/test/metadata
+files matched the original hashes, and all 303 then-existing local evidence
+files were preserved. The later presentation checks are recorded below.
 
 The linked map uses plain Markdown text and links, so it remains readable
 without a diagram renderer. Link targets, heading anchors and the reading
@@ -113,14 +114,18 @@ ten commits remain in their original order.
 ## Result presentation
 
 The optional `--summary` describes the returned record and points to its
-complete saved JSON. The original output remains the default. No core state,
+complete saved JSON. The original output remains the default. The summary
+reads existing fields and performs no additional observation. No core state,
 receipt, synchronization or experiment was changed.
 
-The first combined regression run passed 53 tests: the existing 34 plus
-19 presentation checks. Both modes ran on all five scenarios. Their default
-stdout matched the prior JSON format, and saved `result.json` bytes matched
-the originals and each other. These are new checks of the runner, separate
-from the original 34-test evidence. Clean-copy results follow when complete.
+Presentation revision `b3ff3eb849074fc97ca1f3a733ea9a9607e6bc48` passed
+53 tests in the original and a new Git copy: the existing 34 plus 19 new
+presentation checks. All five scenarios ran in both modes in each location.
+Default stdout matched the prior JSON format; saved `result.json` bytes
+matched the originals and each other. The clean copy matched tracked bytes
+and imported its own package. Closing changes are documentary, with executable
+hashes compared to this tested revision. All 340 local evidence files present
+at the start of this follow-up remained unchanged.
 
 The tests include mismatch/error and missing data, failed scenarios and saves,
 preserved existing evidence and the original error JSON fields. The formatter
