@@ -2,7 +2,7 @@
 
 STOPPER is an independent construction by Gonzalo Montero (GAMC), informed by
 problems observed while building and testing DOJO. DOJO is an environment
-developed within Arquitectura Simbiótica (AS), the architecture behind that work.
+built within Arquitectura Simbiótica (AS), the architecture developed by GAMC.
 
 Requests to stop could fail to reach their receiver, prevent a later step,
 abandon a copy or change only what was delivered to the screen. Investigating

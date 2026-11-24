@@ -72,8 +72,8 @@ in each place.
 ### Historical attribution and relocation
 
 The historical file attributions were corrected to Gonzalo Montero (GAMC).
-Author and committer fields already used valid identities. All 16 commits retain
-their original dates, messages and sequence, with unchanged Python files.
+Author and committer fields already used valid identities. All 16 commits then present
+retained their original dates, messages and sequence, with unchanged Python files.
 Their identifiers and documentary references changed. The original history
 and old-to-new correspondence remain in private custody.
 
