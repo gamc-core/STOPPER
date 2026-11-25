@@ -95,8 +95,7 @@ runs, tested-tree identities and both-mode comparisons. Earlier reproduction
 and presentation evidence remains alongside them.
 
 Those records are excluded from Git and unnecessary for reproducing the
-examples. Historical source material remains private. The repository is
-unpublished.
+examples. Historical source material remains private.
 
 [Try E02](../examples/02_interrupt_copy/README.md) ·
 [Contract](CONTRACT.md) · [Origin](ORIGIN.md) · [Main page](../README.md)
