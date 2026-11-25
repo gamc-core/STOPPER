@@ -2,14 +2,14 @@
 
 28 September 2026
 
-The preserved closure describes six conversational stops across four sessions.
+Six conversational stop requests were recorded across four sessions.
 The provider calls had already begun, and none was recorded as prevented.
 The settlements were `TOO_LATE / DISPATCH_STARTED`.
 
 Early trials still delivered an unwelcome late response. Later records marked
 local presentation as suppressed while retaining the response in history.
-Acceptance of the resulting human experience was recorded separately from
-technical verification.
+Human acceptance of the interaction was recorded separately from technical
+verification.
 
 The improvement concerned delivery and interaction. These records do not
 establish cancellation inside the provider, stopped billing or interrupted

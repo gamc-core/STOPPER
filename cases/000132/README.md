@@ -2,13 +2,13 @@
 
 19 September 2026
 
-An operator authorized an innocuous proposed change, then used a double-click
-stop gesture while the system was preparing an isolated workspace. The copy
-was abandoned between files. A partial containing 656 files remained invalid,
-and the mechanism that would apply the proposed change did not run.
+An operator authorized a harmless proposed change, then double-clicked to stop
+while the system was preparing an isolated workspace. The copy was abandoned
+between files, leaving an invalid partial workspace containing 656 files.
+The mechanism that would apply the proposed change did not run.
 
-The record described the partial as quarantined. This meant logical
-invalidation; it did not establish that the directory had been moved.
+The record called the partial workspace quarantined: it was marked invalid,
+but no physical move of the directory was established.
 The incomplete workspace remained something to account for, rather than a
 ready result.
 

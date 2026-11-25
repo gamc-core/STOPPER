@@ -2,10 +2,10 @@
 
 19 September 2026 (UTC records)
 
-An operator was trying a small authorized edit and attempted to stop it through
-the interface. The preserved diagnosis says the double-click gesture never
-reached the stop receiver. No corresponding intake or settlement record was
-identified. The isolated edit ran, and its validation failed.
+An operator tried to stop a small authorized edit by double-clicking in
+the interface. The recorded diagnosis says the gesture never reached the stop
+receiver. No corresponding intake or settlement record was identified.
+The isolated edit ran, and its validation failed.
 
 Those are two different outcomes: the stop channel failed to receive the
 gesture, and validation later found a problem. The validation failure cannot
