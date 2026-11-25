@@ -11,11 +11,11 @@ native command in disposable synthetic checkouts; other platforms skip those
 two checks. Earlier verification remains recorded in Git and local evidence.
 Subsequent documentation edits leave the tested Python files unchanged.
 
-Codex assisted the implementation under GAMC's authorization. A separate
-adversarial review conducted with Claude examined behavior, the contract,
+Codex assisted the implementation from 20 to 23 November 2026 under GAMC's authorization. A separate
+adversarial review conducted with Claude on 23 November 2026 examined behavior, the contract,
 concurrency, observable results, reproducibility, path safety and public-history
 exposure. Its findings led to targeted fixes; a follow-up review with Claude
-independently checked those fixes and the sanitized history.
+independently checked those fixes and the sanitized history later that day.
 
 ## Reproduce
 
